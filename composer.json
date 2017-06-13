@@ -1,0 +1,21 @@
+{
+  "name": "codante/url-tracker",
+  "type": "library",
+  "description": "",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "shinate",
+      "email": "shine.wangrs@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "URLTracker\\": "src"
+    }
+  }
+}
