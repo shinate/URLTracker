@@ -1,8 +1,9 @@
 {
   "name": "codante/url-tracker",
   "type": "library",
-  "description": "",
+  "description": "Parameter Getter <= ❤ ️=> Query Builder",
   "license": "MIT",
+  "homepage": "https://github.com/shinate/URLTracker",
   "authors": [
     {
       "name": "shinate",
