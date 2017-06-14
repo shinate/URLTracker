@@ -53,7 +53,7 @@ class URLTracker
      * @return array
      */
     private static function defaultBuilder($query = []) {
-        return $query;
+        return http_build_query($query);
     }
 
     /**
