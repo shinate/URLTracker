@@ -15,8 +15,8 @@
     "php": ">=5.3"
   },
   "autoload": {
-    "psr-4": {
-      "URLTracker\\": "src"
+    "psr-0": {
+      "URLTracker": "src/"
     }
   }
 }
