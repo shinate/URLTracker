@@ -2,89 +2,14 @@
 
 class URLTracker
 {
-    private static $RULE = [];
+    protected static $RULE = [];
 
-    private static $CURRENT = [];
+    protected static $CURRENT = [];
 
-    private static $__Getter;
+    protected static $__Getter;
 
-    private static $__Builder;
+    protected static $__Builder;
 
-    /**
-     * Ser getter callback
-     *
-     * @param $factory
-     */
-    public static function setGetter($factory) {
-        if (is_callable($factory)) {
-            self::$__Getter = func_get_args();
-        }
-    }
-
-    /**
-     * Set builder callback
-     *
-     * @param $factory
-     */
-    public static function setBuilder($factory) {
-        if (is_callable($factory)) {
-            self::$__Builder = func_get_args();
-        }
-    }
-
-
-    /**
-     * the default getter
-     *
-     * @param string $key
-     * @param null   $default
-     *
-     * @return null
-     */
-    private static function defaultGetter($key, $default = null) {
-        return isset($_GET[$key]) ? $_GET[$key] : $default;
-    }
-
-    /**
-     * The default builder
-     *
-     * @param array $query
-     *
-     * @return array
-     */
-    private static function defaultBuilder($query = []) {
-        return http_build_query($query);
-    }
-
-    /**
-     * Get param value
-     *
-     * @param string $key
-     * @param null   $default
-     *
-     * @return mixed
-     */
-    public static function getParam($key, $default = null) {
-        return call_user_func_array(self::$__Getter[0], [$key, $default] + array_slice(self::$__Getter, 1));
-    }
-
-    /**
-     * Build query use default or inject callback
-     *
-     * @param array $params
-     *
-     * @return mixed
-     */
-    public static function buildQuery($params = []) {
-        if (empty($params)) {
-            $params = self::$CURRENT;
-        }
-
-        return call_user_func_array(self::$__Builder[0], [
-                                                             self::diff(empty($params) ? self::$CURRENT
-                                                                 : $params, self::$RULE),
-                                                         ] + array_slice(self::$__Builder, 1));
-    }
 
     /**
      * initialize
@@ -123,6 +48,82 @@ class URLTracker
         self::$CURRENT = $_vs;
 
         return self::$CURRENT;
+    }
+
+
+    /**
+     * the default getter
+     *
+     * @param string $key
+     * @param null   $default
+     *
+     * @return null
+     */
+    protected static function defaultGetter($key, $default = null) {
+        return isset($_GET[$key]) ? $_GET[$key] : $default;
+    }
+
+    /**
+     * The default builder
+     *
+     * @param array $query
+     *
+     * @return array
+     */
+    protected static function defaultBuilder($query = []) {
+        return http_build_query($query);
+    }
+
+    /**
+     * Ser getter callback
+     *
+     * @param $factory
+     */
+    public static function setGetter($factory) {
+        if (is_callable($factory)) {
+            self::$__Getter = func_get_args();
+        }
+    }
+
+    /**
+     * Set builder callback
+     *
+     * @param $factory
+     */
+    public static function setBuilder($factory) {
+        if (is_callable($factory)) {
+            self::$__Builder = func_get_args();
+        }
+    }
+
+    /**
+     * Get param value
+     *
+     * @param string $key
+     * @param null   $default
+     *
+     * @return mixed
+     */
+    public static function getParam($key, $default = null) {
+        return call_user_func_array(self::$__Getter[0], [$key, $default] + array_slice(self::$__Getter, 1));
+    }
+
+    /**
+     * Build query use default or inject callback
+     *
+     * @param array $params
+     *
+     * @return mixed
+     */
+    public static function buildQuery($params = []) {
+        if (empty($params)) {
+            $params = self::$CURRENT;
+        }
+
+        return call_user_func_array(self::$__Builder[0], [
+                                                             self::diff(empty($params) ? self::$CURRENT
+                                                                 : $params, self::$RULE),
+                                                         ] + array_slice(self::$__Builder, 1));
     }
 
     /**
@@ -339,7 +340,7 @@ class URLTracker
         return $na;
     }
 
-    private static function reflexWalker(array $values, array $rule) {
+    protected static function reflexWalker(array $values, array $rule) {
         foreach ($values as $key => $value) {
             if (isset($rule[$key])) {
                 $values[$key] = self::reflex($value, $rule[$key]);
@@ -359,7 +360,7 @@ class URLTracker
      *
      * @return array|float|int|string
      */
-    private static function reflex($value, $ruleValue = null) {
+    protected static function reflex($value, $ruleValue = null) {
         switch (true) {
             case is_string($ruleValue):
                 return (string)$value;
@@ -383,7 +384,7 @@ class URLTracker
      *
      * @return bool
      */
-    private static function isAssoc(array $arr) {
+    protected static function isAssoc(array $arr) {
         return [] === $arr ? false : (array_keys($arr) !== range(0, count($arr) - 1));
     }
 }
